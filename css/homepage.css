@@ -1,0 +1,77 @@
+/* Estilização da página inicial que redireciona para um dos subsistemas */
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-size: cover;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.miniatura {
+    display: inline-block;
+    max-width: 300px;
+    width: 300px;
+    height: 300px;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    border: 1px solid black;
+}
+
+    .miniatura a {
+        text-decoration-line: none;
+    }
+
+    .miniatura .blackbox {
+        width: 100%;
+        height: 100%;
+        padding-top: 40%;
+        transition: 1s; /* Para que a cor do hover saia de modo suave*/
+    }
+
+        .miniatura .blackbox:hover {
+            background-color: black;
+            opacity: 0.8;
+            transition: 1s; /* Para que a cor do hover entre de modo suave */ 
+        }
+
+            .miniatura .blackbox .blackbox-text {
+                text-align: center;
+            }
+            
+            .miniatura .blackbox .blackbox-text h1 {
+                font-size: 16px;
+                text-transform: uppercase;
+                color: #f27609;
+                margin-top: 0px;
+            }
+            
+            .miniatura .blackbox .blackbox-text h2 {
+                font-size: 16px;
+                text-transform: none;
+                font-weight: 100;
+                color: white;
+                margin-top: 0px;
+            }
+
+@media screen and (max-width: 600px) {
+    /* As imagens ficam cobrem 100% da div caso a largura seja menor que 600px */
+    .miniatura {
+        max-width: 100%;
+    }
+}
+
+@keyframes content-images {
+	0% {opacity: 0; transform: translate(-20px, 0px);}
+	100% {opacity: 1; transform: translate(0px, 0px);}
+}
