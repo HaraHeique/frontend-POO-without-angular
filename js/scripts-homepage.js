@@ -30,10 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function putBodyImg(infoMiniatura, msg, pathImg) {
     infoMiniatura.innerHTML = msg;
     document.body.style.backgroundImage = "url(" + pathImg + ")";
+    document.body.style.transition = "background-image 0.5s ease-in-out";
 }
 
 // Troca para imagem padrão quando o mouse sai do blackbox da imagem
 function putOffBodyImg(infoMiniatura, pathImgPaddern) {
     infoMiniatura.innerHTML = "";
     document.body.style.backgroundImage = "url(" + pathImgPaddern + ")";
+    document.body.style.transition = "background-image 0.5s ease-in-out";
 }
