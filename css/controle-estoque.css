@@ -1,0 +1,29 @@
+/* Estilização das páginas referentes ao controle de medicamentos
+realizado pelos atendentes dos postos */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300i,400');
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #EEEEEE;
+}
+
+.msg-atendente h1, h2 {
+    color: #2B78E4;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+    .msg-atendente h1 {
+        margin-top: 20px;
+    }
+
+.field-form {
+    color: black;
+    font-weight: bold;
+}

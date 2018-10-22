@@ -1,0 +1,8 @@
+/* Contém estilização genérica que pode ser usada por qualquer página */
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
