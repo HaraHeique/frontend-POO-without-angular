@@ -6,3 +6,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.invalid-field {
+    border: 2px solid red;
+}
