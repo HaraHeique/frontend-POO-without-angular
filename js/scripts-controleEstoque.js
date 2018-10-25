@@ -33,7 +33,7 @@ function sendAjaxLoginAtendente(formLoginAtendente) {
         }
     })
         .done(function () {
-            // TODO redireciona para a página de cadastro: window.location.href
+            window.location.href = "../controleEstoque/cadastro-pessoa.html";
         })
         .fail(function () {
             alert("error in backend request. Please check your code");
