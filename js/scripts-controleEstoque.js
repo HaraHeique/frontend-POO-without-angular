@@ -3,21 +3,26 @@
 function validarCamposLoginAtendente(formLoginAtendente) {
     var rgField = formLoginAtendente.elements[1]
     var numRegistroField = formLoginAtendente.elements[0];
+
     var isValid = true;
 
     // Caso não seja válido coloca a borda vermelha de incorreta
     if (!isValidRG(rgField.value)) {
-        rgField.classList.add('invalid-field');
+        rgField.classList.add('border-danger');
+        document.getElementById('rg-invalido').style.display = "inline";
         isValid = false;
     } else {
-        rgField.classList.remove('invalid-field');
+        document.getElementById('rg-invalido').style.display = "none";
+        rgField.classList.remove('border-danger');
     }
 
     if (!isValidNumRegistro(numRegistroField.value)) {
-        numRegistroField.classList.add('invalid-field');
+        numRegistroField.classList.add('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "inline";
         isValid = false;
     } else {
-        numRegistroField.classList.remove('invalid-field');
+        numRegistroField.classList.remove('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "none";
     }
 
     return isValid;

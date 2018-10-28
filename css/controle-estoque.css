@@ -23,7 +23,11 @@ body {
         margin-top: 20px;
     }
 
-.field-form {
+.sign-out a {
+    text-decoration: none;
     color: black;
-    font-weight: bold;
+    font-size: 25px;
 }
+    .sign-out a:hover {
+        transform: skew(-10deg);
+    }
