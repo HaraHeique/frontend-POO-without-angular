@@ -36,12 +36,15 @@ body {
             transform: skew(-10deg) scale(1.1, 1.1);
         }
 
-.btn-navigation .btn-default {
-    color: black;
-    background-color: white;
-    border: 1px solid black;
-    font-weight: bold;
+.btn-navigation {
+       
 }
-    .btn-navigation .btn-default:hover {
-        background-color: #95BCF2;
+    .btn-navigation .btn-default {
+        color: black;
+        background-color: white;
+        border: 1px solid black;
+        font-weight: bold;
     }
+        .btn-navigation .btn-default:hover {
+            background-color: #95BCF2;
+        }
