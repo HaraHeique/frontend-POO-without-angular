@@ -44,17 +44,14 @@ header h1 {
         padding-top: 40%;
         transition: 1s; /* Para que a cor do hover saia de modo suave*/
     }
-
         .miniatura .blackbox:hover {
             background-color: black;
             opacity: 0.8;
             transition: 1s; /* Para que a cor do hover entre de modo suave */ 
         }
-
             .miniatura .blackbox .blackbox-text {
                 text-align: center;
-            }
-            
+            }           
                 .miniatura .blackbox .blackbox-text h1 {
                     font-size: 16px;
                     text-transform: uppercase;
@@ -80,12 +77,10 @@ header h1 {
     .miniatura {
         max-width: 100%;
     }
-
         .miniatura .blackbox {
             opacity: 0.7;
             background-color: black;
         }
-
             .miniatura .blackbox .blackbox-text h2 {
                 display: block;
             }

@@ -28,11 +28,9 @@ function validarCamposLoginAtendente(formLoginAtendente) {
     return isValid;
 }
 
-function sendAjaxLoginAtendente(formLoginAtendente) {
-    var formDataJSON = serializeFormToJson(formLoginAtendente.serialize());
-    var urlActionResult = formLoginAtendente.attr("action");
+function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
-    $.post(urlActionResult, formDataJSON, function(data, status) {
+    $.post(urlAction, dataJSON, function(data, status) {
         if (status == "sucess") {
             console.log(data);
         }

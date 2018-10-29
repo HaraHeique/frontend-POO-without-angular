@@ -57,14 +57,17 @@
     </div>
 
     <script>
-        $('#login-atendente').submit(function (e) {
-            e.preventDefault();
-            var form = $(this);
+        var formAtendente = document.getElementById('login-atendente');
 
-            if (validarCamposLoginAtendente(form[0])) {
-                sendAjaxLoginAtendente(form);
+        formAtendente.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (validarCamposLoginAtendente(formAtendente)) {
+                let data = formDataToJSONString(formAtendente);
+                let action = formAtendente.action;
+                sendAjaxLoginAtendente(data, action);
             }
-        });
+        });        
     </script>
 
 </body>

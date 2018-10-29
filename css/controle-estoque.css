@@ -1,7 +1,7 @@
 /* Estilização das páginas referentes ao controle de medicamentos
 realizado pelos atendentes dos postos */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300i,400');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i');
 
 html, body {
     margin: 0px;
@@ -18,16 +18,30 @@ body {
     font-weight: bold;
     margin-left: 10px;
 }
-
     .msg-atendente h1 {
         margin-top: 20px;
     }
 
-.sign-out a {
-    text-decoration: none;
-    color: black;
-    font-size: 25px;
+.sign-out {
+    text-align: right;
 }
-    .sign-out a:hover {
-        transform: skew(-10deg);
+    .sign-out a {
+        text-decoration: none;
+        color: black;
+        font-size: 25px;
+        margin-right: 0.5%;
+        display: inline-block; /* <a></a> são inline elements */
+    }
+        .sign-out a:hover {
+            transform: skew(-10deg) scale(1.1, 1.1);
+        }
+
+.btn-navigation .btn-default {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    font-weight: bold;
+}
+    .btn-navigation .btn-default:hover {
+        background-color: #95BCF2;
     }
