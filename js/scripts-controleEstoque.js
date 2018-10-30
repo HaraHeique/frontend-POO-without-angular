@@ -30,7 +30,7 @@ function validarCamposLoginAtendente(formLoginAtendente) {
 
 function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
-    $.post(urlAction, dataJSON, function(data, status) {
+    $.post(urlAction, dataJSON, function (data, status) {
         if (status == "sucess") {
             console.log(data);
         }
@@ -71,4 +71,36 @@ function isValidNumRegistro(numRegistro) {
     }
 
     return true;
+}
+
+// Faz com que o grupo de botões de navegação seja responsivo com o resize da tela
+function groupNavButtonsResponsive(groupButtons) {
+
+    // Faz o bind para ambos eventos. Tanto no load quanto no rezise da página
+    ['load', 'resize'].forEach(function (event) {
+        window.addEventListener(event, function (e) {
+            e.preventDefault();
+
+            let btnGroup1 = groupButtons[0];
+            let btnGroup2 = groupButtons[1];
+
+            // this é a window
+            // Todas remoções e adds são de classes do bootstrap
+            if (this.screen.width >= 750) {
+                btnGroup1.classList.remove('btn-group-vertical');
+
+                btnGroup2.classList.remove('btn-group-vertical')
+                btnGroup2.classList.remove('col-sm-12');
+                btnGroup2.classList.add('offset-sm-1')
+                btnGroup2.classList.add('col-sm-11');
+            } else {
+                btnGroup1.classList.add('btn-group-vertical');
+
+                btnGroup2.classList.add('btn-group-vertical')
+                btnGroup2.classList.add('col-sm-12');
+                btnGroup2.classList.remove('offset-sm-1')
+                btnGroup2.classList.remove('col-sm-11');
+            }
+        });
+    });
 }

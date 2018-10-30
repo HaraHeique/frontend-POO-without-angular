@@ -34,23 +34,27 @@
     <nav>
         <div class="container-fluid">
             <div class="row">
-                <div class="btn-group btn-navigation col-sm-12 shadow-sm" style="margin-bottom: 3px;" role="group">
+                <div class="btn-group btn-navigation col-sm-12 mb-1" role="group">
                     <a href="#" class="btn btn-default">Cadastrar Medicamentos</a>
                     <a href="#" class="btn btn-default">Cadastrar Pacientes</a>
                     <a href="#" class="btn btn-default">Retirar Medicamentos Solicitados</a>
                 </div>
             </div>
-            
+
             <div class="row">
-                <div class="btn-group btn-navigation offset-col-1 col-sm-11 shadow-sm" style="padding-left: 10px;" role="group">
+                <div class="btn-group btn-navigation offset-sm-1 col-sm-11" role="group">
                     <a href="#" class="btn btn-default">Solicitação de Medicamentos</a>
                     <a href="#" class="btn btn-default">Recebimento de Medicamentos</a>
                     <a href="#" class="btn btn-default">Gerar Relatórios</a>
-                </div>    
+                </div>
             </div>
         </div>
-        
+
     </nav>
+
+    <script>
+        groupNavButtonsResponsive(document.getElementsByClassName('btn-navigation'));
+    </script>
 
 </body>
 
