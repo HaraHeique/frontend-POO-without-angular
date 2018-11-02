@@ -47,7 +47,7 @@ function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
 function isValidRG(rg) {
     // Checa pelo tamanho
-    if (rg.length !== 9 && rg.length !== 10) {
+    if (rg.length !== 1 && rg.length !== 3) {
         return false;
     }
 
@@ -61,7 +61,7 @@ function isValidRG(rg) {
 
 function isValidNumRegistro(numRegistro) {
     // Checa pelo tamanho
-    if (numRegistro.length !== 6) {
+    if (numRegistro.length !== 1) {
         return false;
     }
 

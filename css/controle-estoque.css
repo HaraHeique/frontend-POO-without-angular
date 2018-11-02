@@ -12,6 +12,7 @@ html, body {
 
 body {
     background-color: #EEEEEE;
+    overflow: hidden;
 }
 
 .msg-atendente h1, h2 {
@@ -38,24 +39,25 @@ body {
         }
 
 .btn-navigation .btn-default {
-    color: black;
+    color: #007bff;
     background-color: white;
-    border: 1px solid black;
-    font-weight: bold;
+    border: 1px solid #007bff;
+    font-weight: 400;
     white-space: normal;
 }
     .btn-navigation .btn-default:hover {
-        background-color: #95BCF2;
+        background-color: #007bff;
         color: white;
     }
     
 .fill-height {
-    min-height: 100%;
+    min-height: 90%;
     height: 100%;
+    overflow: hidden;
 }
 
 .box-content {
-    background-color: blue; 
+    background-color: #073763; 
     height: 100%;
-    min-height: 100%;
+    min-height: 90%;
 }
