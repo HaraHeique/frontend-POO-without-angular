@@ -104,3 +104,15 @@ function groupNavButtonsResponsive(groupButtons) {
         });
     });
 }
+
+// Quando botões são clicados mudam de cor
+function clickedButtonNavEvent(groupButtons) {
+    
+    groupButtons.on('click', function(e) {
+        e.preventDefault();
+        
+       groupButtons.removeClass('btn-primary').addClass('btn-default');
+       $(this).addClass('btn-primary').removeClass('btn-default');
+    });
+}
+    
