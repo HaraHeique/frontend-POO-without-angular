@@ -115,4 +115,6 @@ function clickedButtonNavEvent(groupButtons) {
        $(this).addClass('btn-primary').removeClass('btn-default');
     });
 }
+
+
     

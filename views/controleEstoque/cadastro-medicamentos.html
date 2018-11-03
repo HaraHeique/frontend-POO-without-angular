@@ -1,31 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="../../css/generic-styles.css">
-        <link rel="stylesheet" type="text/css" href="../../css/controle-estoque.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-            crossorigin="anonymous"></script>
-        <script type="text/javascript" src="../../js/scripts-controleEstoque.js"></script>
-        <script type="text/javascript" src="../../js/scripts-generic.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-        <title>Controle de Estoque - Cadastro de Pacientes</title>
-    </head>
-    
-    <body>
-        <div id="renderbody-layout" style="height: 100%"></div>
-        
-        <script type="text/javascript">
-            changeColorButtonNav(document.getElementsByClassName('btn-navigation btn-default')[0]);
-        </script>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/generic-styles.css">
+    <link rel="stylesheet" type="text/css" href="../../css/controle-estoque.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../../js/scripts-controleEstoque.js"></script>
+    <script type="text/javascript" src="../../js/scripts-generic.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>Controle de Estoque - Cadastro de Medicamentos</title>
+</head>
+
+<body>
+    <header>
+        <div class="sign-out">
+            <a href="index.html">
+                <i title="Logout" class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="btn-group btn-navigation col-sm-12 mb-1" role="group">
+                    <a href="#" class="btn btn-primary">Cadastrar Medicamentos</a>
+                    <a href="#" class="btn btn-default">Cadastrar Pacientes</a>
+                    <a href="#" class="btn btn-default">Retirar Medicamentos Solicitados</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="btn-group btn-navigation offset-sm-1 col-sm-11" role="group">
+                    <a href="#" class="btn btn-default">Solicitação de Medicamentos</a>
+                    <a href="#" class="btn btn-default">Recebimento de Medicamentos</a>
+                    <a href="#" class="btn btn-default">Gerar Relatórios</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <article style="height: 80%;">
+        <div class="container-fluid mt-5 fill-height">
+            <div class="box-content" id="renderbody">
+                
+            </div>
+        </div>
+    </article>
+
+    <footer class="footer"></footer>
+
+    <script>
+        groupNavButtonsResponsive(document.getElementsByClassName('btn-navigation'));
+    </script>
+
+</body>
+
 </html>
