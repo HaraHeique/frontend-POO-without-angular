@@ -28,21 +28,41 @@ function validarCamposLoginAtendente(formLoginAtendente) {
     return isValid;
 }
 
+function definirCamposLoginAtendente(rgValid, numRegistroValid) {
+    if (!rgValid) {
+        document.getElementById('rg').classList.add('border-danger');
+        document.getElementById('rg-invalido').style.display = "inline";
+    } else {
+        document.getElementById('rg').classList.remove('border-danger');
+        document.getElementById('rg-invalido').style.display = "none";
+    }
+    
+    if (!numRegistroValid) {
+        document.getElementById('numRegistro').classList.add('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "inline";
+    } else {
+        document.getElementById('numRegistro').classList.remove('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "none";
+    }
+}
+
 function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
     $.post(urlAction, dataJSON, function (data, status) {
         if (status == "sucess") {
-            console.log(data);
+            if ((data.numeroregistro === true) && (data.rg === true)) {
+                window.location.href = "../controleEstoque/cadastro-medicamentos.html";    
+            }
+            
+            let rgValid = data.rg;
+            let numeroregistroValid = data.numeroregistro;
         }
     })
         .done(function () {
-            window.location.href = "../controleEstoque/cadastro-pessoa.html";
         })
         .fail(function () {
             alert("error in backend request. Please check your code");
         })
-        .always(function () {
-        });
 }
 
 function isValidRG(rg) {

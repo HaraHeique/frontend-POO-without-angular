@@ -19,6 +19,7 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../../js/components/crud-datatable-controleEstoque.js"></script>
     <title>Controle de Estoque - Retirar Medicamentos</title>
 </head>
 
@@ -28,7 +29,7 @@
 
     <article style="height: 80%;">
         <div class="container-fluid mt-5 fill-height">
-            <div class="box-content" id="renderbody-retirarMedicamentos">
+            <div class="box-content" id="retirar-medicamentos">
 
             </div>
         </div>
@@ -43,6 +44,22 @@
 
         groupNavButtonsResponsive(document.getElementsByClassName('btn-navigation'));
         changeColorButtonNav(document.querySelectorAll('.btn-navigation .btn-default')[2]);
+        
+        // Chama o data aqui com o get aqui
+        var data = "";
+        var configs = { 
+            "url_create": "", 
+            "url_update": "",
+            "url_delete": "", 
+            "read": true,
+            "title_btnCreate": ""
+        };
+
+        $('#retirar-medicamentos').crudDataTable({
+            title: "Registro e controle dos medicamentos solicitados e retirados pelos pacientes",
+            data: data,
+            configs: configs,
+        });
     </script>
 
 </body>
