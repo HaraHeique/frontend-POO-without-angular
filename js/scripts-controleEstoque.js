@@ -4,65 +4,51 @@ function validarCamposLoginAtendente(formLoginAtendente) {
     var rgField = formLoginAtendente.elements[1]
     var numRegistroField = formLoginAtendente.elements[0];
 
-    var isValid = true;
+    let isValidRg = (isValidRG(rgField.value)) ? true : false;
+    let isValidNumRegistro = (isValidNumRegistro(numRegistroField.value)) ? true : false;
 
-    // Caso não seja válido coloca a borda vermelha de incorreta
-    if (!isValidRG(rgField.value)) {
-        rgField.classList.add('border-danger');
-        document.getElementById('rg-invalido').style.display = "inline";
-        isValid = false;
-    } else {
-        document.getElementById('rg-invalido').style.display = "none";
-        rgField.classList.remove('border-danger');
-    }
+    definirCamposLoginAtendente(isValidRg, isValidNumRegistro);
 
-    if (!isValidNumRegistro(numRegistroField.value)) {
-        numRegistroField.classList.add('border-danger');
-        document.getElementById('numRegistro-invalido').style.display = "inline";
-        isValid = false;
-    } else {
-        numRegistroField.classList.remove('border-danger');
-        document.getElementById('numRegistro-invalido').style.display = "none";
-    }
-
-    return isValid;
-}
-
-function definirCamposLoginAtendente(rgValid, numRegistroValid) {
-    if (!rgValid) {
-        document.getElementById('rg').classList.add('border-danger');
-        document.getElementById('rg-invalido').style.display = "inline";
-    } else {
-        document.getElementById('rg').classList.remove('border-danger');
-        document.getElementById('rg-invalido').style.display = "none";
-    }
-    
-    if (!numRegistroValid) {
-        document.getElementById('numRegistro').classList.add('border-danger');
-        document.getElementById('numRegistro-invalido').style.display = "inline";
-    } else {
-        document.getElementById('numRegistro').classList.remove('border-danger');
-        document.getElementById('numRegistro-invalido').style.display = "none";
-    }
+    return (isValidRg && isValidNumRegistro);
 }
 
 function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
     $.post(urlAction, dataJSON, function (data, status) {
         if (status == "sucess") {
+            // Tanto número de registro quanto o rg são válidos checados no backend
             if ((data.numeroregistro === true) && (data.rg === true)) {
-                window.location.href = "../controleEstoque/cadastro-medicamentos.html";    
+                window.location.href = "../controleEstoque/cadastro-medicamentos.html";
             }
-            
+
             let rgValid = data.rg;
             let numeroregistroValid = data.numeroregistro;
+            definirCamposLoginAtendente(rgValid, numeroregistroValid);
         }
     })
         .done(function () {
         })
         .fail(function () {
             alert("error in backend request. Please check your code");
-        })
+        });
+}
+
+function definirCamposLoginAtendente(isRgValid, isNumRegistroValid) {
+    if (!isRgValid) {
+        document.getElementById('rg').classList.add('border-danger');
+        document.getElementById('rg-invalido').style.display = "inline";
+    } else {
+        document.getElementById('rg').classList.remove('border-danger');
+        document.getElementById('rg-invalido').style.display = "none";
+    }
+
+    if (!isNumRegistroValid) {
+        document.getElementById('numRegistro').classList.add('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "inline";
+    } else {
+        document.getElementById('numRegistro').classList.remove('border-danger');
+        document.getElementById('numRegistro-invalido').style.display = "none";
+    }
 }
 
 function isValidRG(rg) {
@@ -127,22 +113,22 @@ function groupNavButtonsResponsive(groupButtons) {
 
 // Quando botões são clicados mudam de cor
 function clickedButtonNavEvent(groupButtons) {
-    
-    groupButtons.on('click', function(e) {
+
+    groupButtons.on('click', function (e) {
         e.preventDefault();
-        
-       groupButtons.removeClass('btn-primary').addClass('btn-default');
-       $(this).addClass('btn-primary').removeClass('btn-default');
+
+        groupButtons.removeClass('btn-primary').addClass('btn-default');
+        $(this).addClass('btn-primary').removeClass('btn-default');
     });
 }
 
 function renderHtmlHeaderShared() {
     var html = '';
-    
+
     html += '<div class="sign-out">';
     html += '   <a href="index.html">';
     html += '       <i title="Logout" class="fa fa-sign-out" aria-hidden="true"></i>';
-    html += '   </a>';       
+    html += '   </a>';
     html += '</div>';
 
     document.getElementById('header').insertAdjacentHTML('afterbegin', html);
@@ -185,4 +171,3 @@ function changeColorButtonNav(btnNavClicked) {
     btnNavClicked.href = '#';
 }
 
-    
