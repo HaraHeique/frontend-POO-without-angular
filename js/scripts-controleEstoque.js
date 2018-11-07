@@ -5,17 +5,17 @@ function validarCamposLoginAtendente(formLoginAtendente) {
     var numRegistroField = formLoginAtendente.elements[0];
 
     let isValidRg = (isValidRG(rgField.value)) ? true : false;
-    let isValidNumRegistro = (isValidNumRegistro(numRegistroField.value)) ? true : false;
+    let isValidNumeroRegistro = (isValidNumRegistro(numRegistroField.value)) ? true : false;
 
-    definirCamposLoginAtendente(isValidRg, isValidNumRegistro);
+    definirCamposLoginAtendente(isValidRg, isValidNumeroRegistro);
 
-    return (isValidRg && isValidNumRegistro);
+    return (isValidRg && isValidNumeroRegistro);
 }
 
 function sendAjaxLoginAtendente(dataJSON, urlAction) {
 
     $.post(urlAction, dataJSON, function (data, status) {
-        if (status == "sucess") {
+        if (status === "success") {
             // Tanto número de registro quanto o rg são válidos checados no backend
             if ((data.numeroregistro === true) && (data.rg === true)) {
                 window.location.href = "../controleEstoque/cadastro-medicamentos.html";
@@ -53,7 +53,7 @@ function definirCamposLoginAtendente(isRgValid, isNumRegistroValid) {
 
 function isValidRG(rg) {
     // Checa pelo tamanho
-    if (rg.length !== 1 && rg.length !== 3) {
+    if (rg.length > 3) {
         return false;
     }
 
