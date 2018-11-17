@@ -171,3 +171,26 @@ function changeColorButtonNav(btnNavClicked) {
     btnNavClicked.href = '#';
 }
 
+function fieldsFormCadastro(nomeCadastro) {
+    let fieldsForm = null;
+
+    switch(nomeCadastro) {
+        case "cadastrar-medicamentos":
+            $.getJSON("./json/formfields-cadastrar-medicamentos.json", function(data) {
+                console.log(data);
+                fieldsForm = data;
+            });
+            break;
+        case "cadastrar-pacientes":
+            alert("I didnt do yet!");
+            break;
+        case "cadastrar-solicitacao":
+            alert("I didnt do yet!");
+            break;
+        default:
+            alert("Chamada de nome de cadastro não existente!");
+    }
+
+    return fieldsForm;
+}
+

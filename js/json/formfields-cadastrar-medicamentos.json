@@ -1,0 +1,60 @@
+{
+    "fields": [
+        {
+            "tag": "input",
+            "name": "nome",
+            "innerHtml": "Nome",
+            "id": "nome-medicamento",
+            "type": "text",
+            "required": true,
+            "valid-message": "",
+            "invalid-message": "Nome do medicamento incorreto",
+            "placeholder": ""
+        },
+        {
+            "tag": "input",
+            "name": "laboratorio",
+            "innerHtml": "Laboratório",
+            "id": "nome-laboratorio",
+            "type": "text",
+            "required": true,
+            "valid-message": "",
+            "invalid-message": "Nome do laboratório incorreto",
+            "placeholder": ""
+        },
+        {
+            "tag": "input",
+            "name": "quantidade",
+            "innerHtml": "Quantidade",
+            "id": "quantidade-medicamentos",
+            "type": "number",
+            "required": true,
+            "valid-message": "",
+            "invalid-message": "Quantidade incorreta",
+            "placeholder": "",
+            "min-value": 0
+        },
+        {
+            "tag": "input",
+            "name": "datavencimento",
+            "innerHtml": "Data de Vencimento",
+            "id": "data-vencimento",
+            "type": "date",
+            "required": true,
+            "valid-message": "",
+            "invalid-message": "Escolha uma data",
+            "placeholder": "",
+            "min-value": "today"
+        },
+        {
+            "tag": "textarea",
+            "name": "bula",
+            "innerHtml": "Bula",
+            "id": "bula",
+            "required": true,
+            "valid-message": "",
+            "invalid-message": "Escreva as informações da bula do medicamento",
+            "placeholder": "Escreva as informações do medicamento"
+        }
+    ]
+}
