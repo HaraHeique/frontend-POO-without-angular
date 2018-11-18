@@ -17,6 +17,14 @@
     display: none;
 }
 
+input[type=date]:required:invalid::-webkit-datetime-edit {
+    color: transparent;
+}
+
+input[type=date]:focus::-webkit-datetime-edit {
+    color: black !important;
+}
+
 /* Modificações da classe do bootstrap */
 .border-danger {
     border: 2px solid red;
@@ -27,9 +35,10 @@
     font-weight: bold;
 }
 
-.form-bootstrap input {
-    color: black;
+.form-bootstrap input, textarea, option, select {
+    color: black !important;
 }
-    .form-bootstrap input:focus {
-        color: black;
+    .form-bootstrap input:focus, textarea:focus, option:focus {
+        color: black !important;
     }
+
