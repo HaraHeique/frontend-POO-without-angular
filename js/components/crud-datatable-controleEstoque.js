@@ -406,7 +406,7 @@
                                 event.stopPropagation();
                             }
                             else {
-                                sendAjaxData(forms[0]);
+                                handlerCreate(forms[0]);
                             }
 
                             form.classList.add('was-validated');
@@ -416,15 +416,20 @@
             })();
         }
 
-        function sendAjaxData(form) {
-            let dataJson = formToSimpleJSONDataObj(form);
+        /* Envia o form em de create em formato JSON para o backend */
+        function handlerCreate(form) {
+            let dataJson = formToSimpleJSONObj(form);
 
-            if (settings.identificador === "cadastrar-medicamentos") {
-                dataJson = formToJSONDataObjCadastrarMedicamentos(dataJson);
+            // Caso o envio do form seja de cadastrar pacientes precisa de sofrer alterações no JSON de envio
+            if (settings.identificador === "cadastrar-pacientes") {
+                dataJson = JSONObjCadastrarMedicamentos(dataJson);
             }
+
+            // Enviando ao servidor via AJAX
         }
         
-        function formToSimpleJSONDataObj(form) {
+        /* Converte o formulário para um simples JSON obj sem estruturas complexas */
+        function formToSimpleJSONObj(form) {
             let formData = new FormData(form);
             let convertedJSON = {};
 
@@ -435,8 +440,30 @@
             return convertedJSON;
         }
 
-        function formToJSONDataObjCadastrarMedicamentos(dataJson) {
-            //
+        /* Função que pega um JSON obj simples e converte em uma estrutura mais complexa de cadastrar medicamentos */
+        function JSONObjCadastrarMedicamentos(dataJson) {
+            let numDependentes = document.getElementById('numero-dependentes').value;
+
+            let objPessoa = {
+                nome = dataJson.nome,
+                cpf = dataJson.cpf,
+                rg = dataJson.rg,
+                datanascimento = dataJson.datanascimento,
+                numerosus = dataJson.numerosus,
+                sexo = dataJson.sexo,
+                dependentes = []
+            }
+
+            for (let i = 1; i <= numDependentes; i++) {
+                objPessoa.dependentes.push({
+                    nome = dataJson["nome_dependente" + i],
+                    rg = dataJson["rg_dependente" + i],
+                    datanascimento = dataJson["datanascimento_dependente" + i],
+                    sexo = dataJson["sexo_dependente" + i]
+                });
+            }
+            
+            return objPessoa;
         }
     };
 })(jQuery);
