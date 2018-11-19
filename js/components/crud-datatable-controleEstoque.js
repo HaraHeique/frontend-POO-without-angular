@@ -91,6 +91,9 @@
 
             // Chama o método que faz o bind dos eventos de validação antes de enviar o formulário
             validationSendFormCreateEvent();
+            
+            // Bind dos eventos de mudança do select de número de dependentes do formulário de pacientes
+            addNovosDependentesEvent();
         }
 
         /* Criação do modal compartilhado para todos os modais forms de criação */
@@ -228,11 +231,11 @@
             html += '        <div class="col-sm-5 field-form">Sexo:</div>';
             html += '        <div class="col-sm-7">';
             html += '            <div class="custom-control custom-radio custom-control-inline">';
-            html += '                <input class="custom-control-input" type="radio" name="sexo" id="sexo-feminino" value="feminino" required>';
+            html += '                <input class="custom-control-input" type="radio" name="sexo" id="sexo-feminino" value="0" required>';
             html += '                <label class="custom-control-label" for="sexo-feminino" style="color: black">Feminino</label>';
             html += '            </div>';
             html += '            <div class="custom-control custom-radio custom-control-inline">';
-            html += '                <input class="custom-control-input" type="radio" name="sexo" id="sexo-masculino" value="masculino" required>';
+            html += '                <input class="custom-control-input" type="radio" name="sexo" id="sexo-masculino" value="1" required>';
             html += '                <label class="custom-control-label" for="sexo-masculino" style="color: black">Masculino</label>';
             html += '            </div>';
             html += '        </div>'
@@ -249,8 +252,72 @@
             html += '            <div class="valid-feedback"></div>';
             html += '        </div>';
             html += '    </div>';
+            html += '    <div id="form-dependentes-pacientes" style="display:none;" name="dependentes"></div>';
             html += '    <button class="btn btn-primary" id="btn-submit-form" type="submit" style="display: none;">Submit</button>';
             html += '</form>';
+
+            return html;
+        }
+
+        /* Criação dos formulários dos dependentes que ficam com display:none e vão aparecendo com a seleção do número de dependentes */
+        function cadastrarPacientesDependentesForm(numeroMaxDependentes) {
+            let html = '';
+            html += '<hr style="border: 0.5px solid #c0c3c5;">'
+            html += '<h4 class="my-4 field-form-dependentes" style="text-align:center;">';
+            html += '    Informações dos Dependentes';
+            html += '</h4>';
+
+            for (let i = 1; i <= numeroMaxDependentes; i++) {
+                let idNome = "nome-dependente-" + i;
+                let idRg = "rg-dependente-" + i;
+                let idDataNascimento = "data-nascimento-dependente-" + i;
+                let idSexoMasc = "sexo-masculino-" + i;
+                let idSexoFem = "sexo-feminino-" + i;
+
+                html += '    <h5 class="field-form-dependentes mt-5 mb-4" style="font-size:1rem; text-align:center">Dependente ' + i + '</h5>';
+                html += '    <div class="form-group form-row">';
+                html += '        <label class="col-sm-5 col-form-label field-form" for="' + idNome + '">Nome:</label>';
+                html += '        <div class="col-sm-7">';
+                html += '            <input class="form-control" type="text" name="nome_dependente'+ i +'" id="' + idNome + '" required>';
+                html += '            <div class="valid-feedback"></div>';
+                html += '            <div class="invalid-feedback">Nome de dependente inválido</div>';
+                html += '        </div>';
+                html += '    </div>';
+                html += '    <div class="form-group form-row">';
+                html += '        <label class="col-sm-5 col-form-label field-form" for="' + idRg + '">RG:</label>';
+                html += '        <div class="col-sm-7">';
+                html += '            <input class="form-control" type="text" name="rg_dependente'+ i +'" id="' + idRg + '" required>';
+                html += '            <div class="valid-feedback"></div>';
+                html += '            <div class="invalid-feedback">RG inválido</div>';
+                html += '        </div>';
+                html += '    </div>';
+                html += '    <div class="form-group form-row">';
+                html += '        <label class="col-sm-5 col-form-label field-form" for="' + idDataNascimento + '">Data de Nascimento:</label>';
+                html += '        <div class="col-sm-7">';
+                html += '            <div class="input-group">';
+                html += '                <div class="input-group-prepend">';
+                html += '                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>';
+                html += '                </div>';
+                html += '                <input class="form-control" type="date" name="datanascimento_dependente'+ i +'" id="' + idDataNascimento + '" required>';
+                html += '                <div class="valid-feedback"></div>';
+                html += '                <div class="invalid-feedback">Data inválida</div>';
+                html += '            </div>';
+                html += '        </div>';
+                html += '    </div>';
+                html += '    <div class="form-group form-row">';
+                html += '        <div class="col-sm-5 field-form">Sexo:</div>';
+                html += '        <div class="col-sm-7">';
+                html += '            <div class="custom-control custom-radio custom-control-inline">';
+                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente'+ i +'" id="' + idSexoFem + '" value="0" required>';
+                html += '                <label class="custom-control-label" for="' + idSexoFem + '" style="color: black">Feminino</label>';
+                html += '            </div>';
+                html += '            <div class="custom-control custom-radio custom-control-inline">';
+                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente'+ i +'" id="' + idSexoMasc + '" value="1" required>';
+                html += '                <label class="custom-control-label" for="' + idSexoMasc + '" style="color: black">Masculino</label>';
+                html += '            </div>';
+                html += '        </div>'
+                html += '    </div>';
+            }
 
             return html;
         }
@@ -294,9 +361,27 @@
         function addNovosDependentesEvent() {
             let selectNumDependentes = document.getElementById('numero-dependentes');
 
-            selectNumDependentes.addEventListener('change', function (e) {
-                e.preventDefault();
-            });
+            if (selectNumDependentes) {
+                selectNumDependentes.addEventListener('change', function (e) {
+                    e.preventDefault();
+    
+                    let formDependentes = document.getElementById('form-dependentes-pacientes');
+    
+                    // Removendo todo o conteúdo dentro do formDependentes
+                    while (formDependentes.firstChild) {
+                        formDependentes.removeChild(formDependentes.firstChild);
+                    }
+    
+                    // Adicionando o conteúdo novamente de acordo com a troca
+                    let numDependentes = selectNumDependentes.value
+                    if (numDependentes > 0) {
+                        formDependentes.insertAdjacentHTML("afterbegin", cadastrarPacientesDependentesForm(numDependentes));
+                        formDependentes.style.display = "block";
+                    } else {
+                        formDependentes.style.display = "none";
+                    }
+                });
+            }
         }
 
         /* Validação do formulário de create */
@@ -312,6 +397,7 @@
 
                 window.addEventListener('load', function () {
                     var forms = document.getElementsByClassName('needs-validation');
+
                     // Loop no formulário para previnir a submissão do formulário
                     var validation = Array.prototype.filter.call(forms, function (form) {
                         form.addEventListener('submit', function (event) {
@@ -319,11 +405,38 @@
                                 event.preventDefault();
                                 event.stopPropagation();
                             }
+                            else {
+                                sendAjaxData(forms[0]);
+                            }
+
                             form.classList.add('was-validated');
                         }, false);
                     });
                 }, false);
             })();
+        }
+
+        function sendAjaxData(form) {
+            let dataJson = formToSimpleJSONDataObj(form);
+
+            if (settings.identificador === "cadastrar-medicamentos") {
+                dataJson = formToJSONDataObjCadastrarMedicamentos(dataJson);
+            }
+        }
+        
+        function formToSimpleJSONDataObj(form) {
+            let formData = new FormData(form);
+            let convertedJSON = {};
+
+            formData.forEach(function(value, key) { 
+                convertedJSON[key] = value;
+            });
+
+            return convertedJSON;
+        }
+
+        function formToJSONDataObjCadastrarMedicamentos(dataJson) {
+            //
         }
     };
 })(jQuery);

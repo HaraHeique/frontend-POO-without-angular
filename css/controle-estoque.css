@@ -83,3 +83,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.field-form-dependentes {
+    text-align: auto;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: black;
+}
