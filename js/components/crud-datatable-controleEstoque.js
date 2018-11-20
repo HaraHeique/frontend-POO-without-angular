@@ -425,7 +425,37 @@
                 dataJson = JSONObjCadastrarMedicamentos(dataJson);
             }
 
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        
+            toastr["success"]("Criado com sucesso")
+
             // Enviando ao servidor via AJAX
+            // $.post(settings.configs.url_create, dataJSON, function (data, status) {
+            //     if (status === "success") {
+            //         $.toast("Enviado com sucesso");
+            //     }
+            // })
+            // .done(function () {
+            // })
+            // .fail(function () {
+            //     alert("error in backend request. Please check your code");
+            // });
         }
         
         /* Converte o formulário para um simples JSON obj sem estruturas complexas */
@@ -445,21 +475,21 @@
             let numDependentes = document.getElementById('numero-dependentes').value;
 
             let objPessoa = {
-                nome = dataJson.nome,
-                cpf = dataJson.cpf,
-                rg = dataJson.rg,
-                datanascimento = dataJson.datanascimento,
-                numerosus = dataJson.numerosus,
-                sexo = dataJson.sexo,
-                dependentes = []
+                nome: dataJson.nome,
+                cpf: dataJson.cpf,
+                rg: dataJson.rg,
+                datanascimento: dataJson.datanascimento,
+                numerosus: dataJson.numerosus,
+                sexo: dataJson.sexo,
+                dependentes: []
             }
 
             for (let i = 1; i <= numDependentes; i++) {
                 objPessoa.dependentes.push({
-                    nome = dataJson["nome_dependente" + i],
-                    rg = dataJson["rg_dependente" + i],
-                    datanascimento = dataJson["datanascimento_dependente" + i],
-                    sexo = dataJson["sexo_dependente" + i]
+                    nome: dataJson["nome_dependente" + i],
+                    rg: dataJson["rg_dependente" + i],
+                    datanascimento: dataJson["datanascimento_dependente" + i],
+                    sexo: dataJson["sexo_dependente" + i]
                 });
             }
             
