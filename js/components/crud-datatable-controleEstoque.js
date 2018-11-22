@@ -6,6 +6,9 @@
             data: ''
         }, options);
 
+        // Para mostrar os toasts depois do submit
+        var toastType = "";
+
         return this.each(function () {
             var _el = $(this);
 
@@ -18,6 +21,9 @@
                 _el.append(containerBtnCreate);
                 clickBtnCreateModalForm(settings.identificador, settings.configs.title_btnCreate);
             }
+
+            // Dá binding no evento de mostrar os toasts
+            showToastBindingEvent();
         });
 
         /* Cria o título do box do content */
@@ -100,7 +106,7 @@
         function createModalForm(modalId, modalTitle) {
             let html = '';
 
-            html += '<div class="modal fade" id="' + modalId + '" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">';
+            html += '<div class="modal fade modal-form" id="' + modalId + '" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">';
             html += '    <div class="modal-dialog modal-dialog-centered" role="document">';
             html += '        <div class="modal-content">';
             html += '            <div class="modal-header" style="border-bottom-color: #c0c3c5 !important">';
@@ -401,6 +407,7 @@
                     // Loop no formulário para previnir a submissão do formulário
                     var validation = Array.prototype.filter.call(forms, function (form) {
                         form.addEventListener('submit', function (event) {
+                            
                             if (form.checkValidity() === false) {
                                 event.preventDefault();
                                 event.stopPropagation();
@@ -424,31 +431,12 @@
             if (settings.identificador === "cadastrar-pacientes") {
                 dataJson = JSONObjCadastrarMedicamentos(dataJson);
             }
-
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "positionClass": "toast-bottom-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "3000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-        
-            toastr["success"]("Criado com sucesso")
-
+            showToast("create-success");
+            
             // Enviando ao servidor via AJAX
             // $.post(settings.configs.url_create, dataJSON, function (data, status) {
             //     if (status === "success") {
-            //         $.toast("Enviado com sucesso");
+            //         showToast("create-sucess");     
             //     }
             // })
             // .done(function () {
@@ -494,6 +482,51 @@
             }
             
             return objPessoa;
+        }
+
+        // Modificando o nome da variável global mostra o toast correto
+        function showToast(toastName) {
+            toastType = toastName;
+        }
+
+        // Mostra o toast de acordo com o tipo do toast da variável global toastType para create, update, delete
+        function showToastBindingEvent() {
+            $('.modal-form').on('hidden.bs.modal', function (e) {
+                e.preventDefault();
+
+                // Definição das opções
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                
+                // Mostra o toast na tela
+                switch (toastType) {
+                    case "create-success":
+                        toastr["success"]("Cadastrado com sucesso!");
+                        break;
+                    case "create-fail":
+                        toastr["error"]("Houve problema no cadastro");
+                        break;
+                    default:
+                }
+
+                // Reseta a variável global
+                toastType = "";
+            });
         }
     };
 })(jQuery);
