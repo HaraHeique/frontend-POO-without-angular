@@ -6,9 +6,6 @@
             data: ''
         }, options);
 
-        // Para mostrar os toasts depois do submit
-        var toastType = "";
-
         return this.each(function () {
             var _el = $(this);
 
@@ -22,8 +19,10 @@
                 clickBtnCreateModalForm(settings.identificador, settings.configs.title_btnCreate);
             }
 
-            // Dá binding no evento de mostrar os toasts
-            showToastBindingEvent();
+            let dtContainer = createContainerDataTable();
+            _el.append(dtContainer);
+
+            let dataTable = renderInitDataTable(settings.data);
         });
 
         /* Cria o título do box do content */
@@ -42,10 +41,10 @@
             if (checkValidUrls(url_create)) {
                 let html = '';
                 html += '<div class="row pl-2 pt-2">';
-                html += '   <div class="col-sm-12">'
+                html += '   <div class="col-sm-12">';
                 html += '       <button type="button" id="btn-create" class="btn-create btn-md btn-light">' + btnTitle + '</button>';
-                html += '   </div>'
-                html += '</div>'
+                html += '   </div>';
+                html += '</div>';
 
                 return html;
             }
@@ -96,7 +95,7 @@
             document.getElementById('modal-body').insertAdjacentHTML("afterbegin", formBody);
 
             // Chama o método que faz o bind dos eventos de validação antes de enviar o formulário
-            validationSendFormCreateEvent();
+            validationSendFormEvent("create");
             
             // Bind dos eventos de mudança do select de número de dependentes do formulário de pacientes
             addNovosDependentesEvent();
@@ -111,13 +110,13 @@
             html += '        <div class="modal-content">';
             html += '            <div class="modal-header" style="border-bottom-color: #c0c3c5 !important">';
             html += '                <h5 class="modal-title field-form" id="modal-title">' + modalTitle + '</h5>';
-            html += '                <button type="button" title="Fechar" class="close" data-dismiss="modal" aria-label="Fechar">';
+            html += '                <button type="button" title="Fechar" class="close close-modal" data-dismiss="modal" aria-label="Fechar">';
             html += '                    <span aria-hidden="true">&times;</span>';
             html += '                </button>';
             html += '            </div>';
             html += '            <div class="modal-body" id="modal-body"></div>';
             html += '            <div class="modal-footer" style="border-top-color: #c0c3c5 !important">';
-            html += '                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>';
+            html += '                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Fechar</button>';
             html += '                <button type="button" class="btn btn-primary" id="fake-btn-submit">Cadastrar</button>';
             html += '            </div>';
             html += '        </div>';
@@ -391,7 +390,7 @@
         }
 
         /* Validação do formulário de create */
-        function validationSendFormCreateEvent() {
+        function validationSendFormEvent(operationType) {
             (function () {
                 'use strict';
 
@@ -407,16 +406,32 @@
                     // Loop no formulário para previnir a submissão do formulário
                     var validation = Array.prototype.filter.call(forms, function (form) {
                         form.addEventListener('submit', function (event) {
-                            
+                            event.preventDefault();
+
                             if (form.checkValidity() === false) {
-                                event.preventDefault();
                                 event.stopPropagation();
+                                
+                                // Classe que valida os campos do formulário mostrando mensagens
+                                form.classList.add('was-validated');
                             }
+                            // Quando o formulário é válido é feito create/update
                             else {
-                                handlerCreate(forms[0]);
+                                if (operationType === "create") {
+                                    handlerCreate(form);
+                                }
+                                else if (operationType === "update") {
+
+                                }
+                                // Fecha o formulário
+                                document.getElementsByClassName('close-modal')[0].click();
+
+                                // Retira as informações do formulário
+                                form.reset();
+
+                                // Tira as marcações dos campo após mandar o formulário para o backend
+                                form.classList.remove('was-validated');
                             }
 
-                            form.classList.add('was-validated');
                         }, false);
                     });
                 }, false);
@@ -431,18 +446,19 @@
             if (settings.identificador === "cadastrar-pacientes") {
                 dataJson = JSONObjCadastrarMedicamentos(dataJson);
             }
+
             showToast("create-success");
             
             // Enviando ao servidor via AJAX
             // $.post(settings.configs.url_create, dataJSON, function (data, status) {
             //     if (status === "success") {
-            //         showToast("create-sucess");     
+            //         showToast("create-success");     
             //     }
             // })
             // .done(function () {
             // })
             // .fail(function () {
-            //     alert("error in backend request. Please check your code");
+            //     showToast("create-error");
             // });
         }
         
@@ -484,49 +500,64 @@
             return objPessoa;
         }
 
-        // Modificando o nome da variável global mostra o toast correto
-        function showToast(toastName) {
-            toastType = toastName;
+        /* Modificando o nome da variável global mostra o toast correto */
+        function showToast(toastType) {
+            
+            // Definição das opções
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            
+            // Mostra o toast na tela
+            switch (toastType) {
+                case "create-success":
+                    toastr["success"]("Cadastrado com sucesso!");
+                    break;
+                case "create-error":
+                    toastr["error"]("Houve problema no cadastro");
+                    break;
+                default:
+            }
         }
 
-        // Mostra o toast de acordo com o tipo do toast da variável global toastType para create, update, delete
-        function showToastBindingEvent() {
-            $('.modal-form').on('hidden.bs.modal', function (e) {
-                e.preventDefault();
+        /* Criando a html/esqueleto da dataTable */
+        function createContainerDataTable() {
+            let html = '';
+            html += '<div class="dt-bootstrap pt-4">';
+            html += '    <table id="crud-dataTable" class="table table-bordered table-hover" width="100%">';
+            html += '    </table>';
+            html += '</div>'
 
-                // Definição das opções
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-bottom-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "3000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                
-                // Mostra o toast na tela
-                switch (toastType) {
-                    case "create-success":
-                        toastr["success"]("Cadastrado com sucesso!");
-                        break;
-                    case "create-fail":
-                        toastr["error"]("Houve problema no cadastro");
-                        break;
-                    default:
-                }
-
-                // Reseta a variável global
-                toastType = "";
-            });
+            return html;
         }
+
+        /* Renderizando a datatable no seu estado inicial */
+        function renderInitDataTable(infoTable) {
+            // Setando configurações
+            let configs = {
+                data: infoTable.dataSet,
+                columns: infoTable.headers
+            };
+
+            // Redenrizando a dataTable
+            let dataTable = $('#crud-dataTable').DataTable(configs);
+
+            return dataTable;
+        }
+
     };
 })(jQuery);

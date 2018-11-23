@@ -159,12 +159,13 @@ function renderHtmlNavShared() {
     document.getElementById('navigation').insertAdjacentHTML('afterbegin', html);
 }
 
-function rederHtmlFooterShared() {
+function renderHtmlFooterShared() {
     var html = '';
 
     document.getElementById('footer').insertAdjacentHTML('afterbegin', html);
 }
 
+/* Muda a cor do botão de navegação */
 function changeColorButtonNav(btnNavClicked) {
     btnNavClicked.classList.remove('btn-default');
     btnNavClicked.classList.add('btn-primary');
@@ -192,5 +193,37 @@ function fieldsFormCadastro(nomeCadastro) {
     }
 
     return fieldsForm;
+}
+
+/* Cria a estrutura do header e dados da datatable de medicamento */
+function structureDataTableMedicamento(data) {
+    let dataStructured = {};
+
+    // Colunas da datatable
+    let headers = [
+        { title: "Nome" },
+        { title: "Data de Vencimento" },
+        { title: "Quantidade" },
+        { title: "Laboratório" },
+        { title: "Operações" }
+    ];
+
+    // Dados da datatable
+    let dataSet = [];
+
+    for (indiceObj in data) {
+        dataSet.push([
+            data[indiceObj].medicamento.nome,
+            data[indiceObj].datavencimento,
+            data[indiceObj].quantidade,
+            "Em andamento...",
+            ""
+        ]);
+    }
+
+    dataStructured.headers = headers;
+    dataStructured.dataSet = dataSet;
+    
+    return dataStructured;    
 }
 

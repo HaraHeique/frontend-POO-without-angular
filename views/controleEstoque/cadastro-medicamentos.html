@@ -19,6 +19,11 @@
     <script type="text/javascript" src="../../js/scripts-generic.js"></script>
     <script type="text/javascript" src="../../js/components/crud-datatable-controleEstoque.js"></script>
     <title>Controle de Estoque - Cadastro de Medicamentos</title>
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </head>
 
 <body>
@@ -37,29 +42,37 @@
     <script type="text/javascript">
         renderHtmlHeaderShared();
         renderHtmlNavShared();
-        rederHtmlFooterShared();
+        renderHtmlFooterShared();
 
         groupNavButtonsResponsive(document.getElementsByClassName('btn-navigation'));
         changeColorButtonNav(document.querySelectorAll('.btn-navigation .btn-default')[0]);
-
-        // Chama o data aqui com o get aqui
-        var data = "";
-        var configs = { 
-            "url_create": "https://", 
-            "url_update": "",
-            "url_delete": "", 
-            "read": true,
-            "title_btnCreate": "Novo Medicamento",
-        };
-
-        $('#cadastrar-medicamentos').crudDataTable({
-            title: "Consultar, alterar, excluir e registrar medicamentos",
-            data: data,
-            configs: configs,
-            identificador: "cadastrar-medicamentos"
-        });
-
         
+        var urlGet = 'https://poo2.herokuapp.com/mp';
+
+        $.getJSON(urlGet, initRender)
+            .done(function () {
+            })
+            .fail(function () {
+                alert("error in backend request. Please check your code");
+            });
+        
+        function initRender(data) {
+            var dataMedicamento = structureDataTableMedicamento(data);
+            var configs = {
+                "url_create": "https://",
+                "url_update": "",
+                "url_delete": "",
+                "read": true,
+                "title_btnCreate": "Novo Medicamento",
+            };
+
+            $('#cadastrar-medicamentos').crudDataTable({
+                title: "Consultar, alterar, excluir e registrar medicamentos",
+                data: dataMedicamento,
+                configs: configs,
+                identificador: "cadastrar-medicamentos"
+            });
+        }
     </script>
 
 </body>
