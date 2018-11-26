@@ -66,7 +66,6 @@ body {
         font-weight: bold;
         font-style: italic;
     }
-
     .box-content hr {
         margin-top: 0rem;
         height: 0.4px;
@@ -90,3 +89,26 @@ body {
     font-size: 1.1rem;
     color: black;
 }
+
+.dt-bootstrap {
+    background-color: transparent;
+}
+    .dt-bootstrap .table-bordered {
+        border: 1px solid white;
+    }
+    .dt-bootstrap thead tr {
+        background-color: #007bff;
+        color: white;
+    }
+    .dt-bootstrap tbody {
+        background-color: #D4E7FB;
+    }
+    .dt-bootstrap .table-bordered tbody td, .table-bordered tbody th {
+        border: 1px solid #ffffff;
+    }
+    .dt-bootstrap, input, textarea, option, select {
+        color: black !important;
+    }
+        .dt-bootstrap input:focus, textarea:focus, option:focus {
+            color: black !important;
+        }

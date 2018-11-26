@@ -40,7 +40,7 @@
         function setBtnCreate(btnTitle, url_create) {
             if (checkValidUrls(url_create)) {
                 let html = '';
-                html += '<div class="row pl-2 pt-2">';
+                html += '<div class="row pl-2 py-2">';
                 html += '   <div class="col-sm-12">';
                 html += '       <button type="button" id="btn-create" class="btn-create btn-md btn-light">' + btnTitle + '</button>';
                 html += '   </div>';
@@ -537,21 +537,46 @@
         /* Criando a html/esqueleto da dataTable */
         function createContainerDataTable() {
             let html = '';
-            html += '<div class="dt-bootstrap pt-4">';
+            html += '<div class="dt-bootstrap mt-3 mb-1 mx-2">';
             html += '    <table id="crud-dataTable" class="table table-bordered table-hover" width="100%">';
             html += '    </table>';
-            html += '</div>'
+            html += '</div>';
 
             return html;
         }
 
         /* Renderizando a datatable no seu estado inicial */
         function renderInitDataTable(infoTable) {
+            
             // Setando configurações
             let configs = {
                 data: infoTable.dataSet,
-                columns: infoTable.headers
-            };
+                columns: infoTable.headers,
+                //columnDefs: infoTable.columnDefs,
+                paging: true,
+                pageLength: 10,
+                fixedHeader: false,
+                orderClasses: false,
+                autoWidth: true,
+                info: false,
+                scrollCollapse: false,
+                scrollX: true,
+                bLengthChange: false,
+                order: [
+                    [0, "asc"]
+                ],
+                language: {
+                    "search": '<i class="fa fa-search" style="color: white;"></i>',
+                    "searchPlaceholder": "Pesquisar...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                }
+            }
 
             // Redenrizando a dataTable
             let dataTable = $('#crud-dataTable').DataTable(configs);

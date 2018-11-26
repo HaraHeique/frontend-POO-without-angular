@@ -211,13 +211,18 @@ function structureDataTableMedicamento(data) {
     // Dados da datatable
     let dataSet = [];
 
+    // Botões de Operações(Consultar, Alterar e Deletar)
+    let read = '<i class="fa fa-search-plus" title="Consultar Medicamento" aria-hidden="true"></i>';
+    let update = '<i class="fa fa-cog" title="Atualizar Medicamento" aria-hidden="true"></i>';
+    let deletee = '<i class="fa fa-trash" title="Deletar Medicamento" aria-hidden="true"></i>';
+
     for (indiceObj in data) {
         dataSet.push([
             data[indiceObj].medicamento.nome,
             data[indiceObj].datavencimento,
             data[indiceObj].quantidade,
-            "Em andamento...",
-            ""
+            "Consertar...",
+            '<div class="fa-operacoes">' + read + update + deletee + '</div>'
         ]);
     }
 

@@ -42,3 +42,11 @@ input[type=date]:focus::-webkit-datetime-edit {
         color: black !important;
     }
 
+.fa-operacoes {
+    display: block;
+    text-align: center;
+}
+    .fa-operacoes i {
+        padding: 0 10px 0 10px;
+        font-size: 1.5em;
+    }
