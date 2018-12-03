@@ -42,7 +42,7 @@ header h1 {
         width: 100%;
         height: 100%;
         padding-top: 40%;
-        transition: 1s; /* Para que a cor do hover saia de modo suave*/
+        transition: 1s; /* Para que a cor do hover saia de modo suave */
     }
         .miniatura .blackbox:hover {
             background-color: black;
@@ -58,7 +58,6 @@ header h1 {
                     color: #00bfff;
                     margin-top: 0px;
                 }
-                
                 .miniatura .blackbox .blackbox-text h2 {
                     font-size: 16px;
                     text-transform: none;
@@ -69,7 +68,7 @@ header h1 {
                 }
 
 @media screen and (max-width: 600px) {
-    /* As imagens ficam cobrem 100% da div caso a largura seja menor que 600px */
+    /* As imagens cobrem 100% da div caso a largura seja menor que 600px */
     header h1 {
         display: none;
     }

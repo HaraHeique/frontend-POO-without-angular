@@ -20,7 +20,6 @@
     <script type="text/javascript" src="../../js/components/crud-datatable-controleEstoque.js"></script>
     <title>Controle de Estoque - Cadastro de Medicamentos</title>
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -42,6 +41,8 @@
     <footer class="footer" id="footer"></footer>
 
     <script type="text/javascript">
+        showLoadingScreen("Carregando Informações");
+
         renderHtmlHeaderShared();
         renderHtmlNavShared();
         renderHtmlFooterShared();
@@ -53,12 +54,14 @@
 
         $.getJSON(urlGet, initRender)
             .done(function () {
+                hideLoadingScreen();
             })
             .fail(function () {
                 alert("error in backend request. Please check your code");
             });
         
         function initRender(data) {
+
             var dataMedicamento = structureDataTableMedicamento(data);
             var configs = {
                 "url_create": "https://",

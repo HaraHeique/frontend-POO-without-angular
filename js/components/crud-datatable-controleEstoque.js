@@ -6,6 +6,9 @@
             data: ''
         }, options);
 
+        // Tabela que é redenrizada nas páginas
+        var crudDataTable;
+
         return this.each(function () {
             var _el = $(this);
 
@@ -13,16 +16,18 @@
             let tituloContainer = setTitleBoxContent(settings.title);
             _el.html(tituloContainer);
 
+            // Cria o botão de create
             let containerBtnCreate = setBtnCreate(settings.configs.title_btnCreate, settings.configs.url_create);
             if (containerBtnCreate) {
                 _el.append(containerBtnCreate);
                 clickBtnCreateModalForm(settings.identificador, settings.configs.title_btnCreate);
             }
 
+            // Cria o container da dataTable e depois colocar a dataTable
             let dtContainer = createContainerDataTable();
             _el.append(dtContainer);
 
-            let dataTable = renderInitDataTable(settings.data);
+            crudDataTable = renderInitDataTable(settings.data);
         });
 
         /* Cria o título do box do content */
@@ -57,7 +62,6 @@
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -96,7 +100,7 @@
 
             // Chama o método que faz o bind dos eventos de validação antes de enviar o formulário
             validationSendFormEvent("create");
-            
+
             // Bind dos eventos de mudança do select de número de dependentes do formulário de pacientes
             addNovosDependentesEvent();
         }
@@ -283,7 +287,7 @@
                 html += '    <div class="form-group form-row">';
                 html += '        <label class="col-sm-5 col-form-label field-form" for="' + idNome + '">Nome:</label>';
                 html += '        <div class="col-sm-7">';
-                html += '            <input class="form-control" type="text" name="nome_dependente'+ i +'" id="' + idNome + '" required>';
+                html += '            <input class="form-control" type="text" name="nome_dependente' + i + '" id="' + idNome + '" required>';
                 html += '            <div class="valid-feedback"></div>';
                 html += '            <div class="invalid-feedback">Nome de dependente inválido</div>';
                 html += '        </div>';
@@ -291,7 +295,7 @@
                 html += '    <div class="form-group form-row">';
                 html += '        <label class="col-sm-5 col-form-label field-form" for="' + idRg + '">RG:</label>';
                 html += '        <div class="col-sm-7">';
-                html += '            <input class="form-control" type="text" name="rg_dependente'+ i +'" id="' + idRg + '" required>';
+                html += '            <input class="form-control" type="text" name="rg_dependente' + i + '" id="' + idRg + '" required>';
                 html += '            <div class="valid-feedback"></div>';
                 html += '            <div class="invalid-feedback">RG inválido</div>';
                 html += '        </div>';
@@ -303,7 +307,7 @@
                 html += '                <div class="input-group-prepend">';
                 html += '                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>';
                 html += '                </div>';
-                html += '                <input class="form-control" type="date" name="datanascimento_dependente'+ i +'" id="' + idDataNascimento + '" required>';
+                html += '                <input class="form-control" type="date" name="datanascimento_dependente' + i + '" id="' + idDataNascimento + '" required>';
                 html += '                <div class="valid-feedback"></div>';
                 html += '                <div class="invalid-feedback">Data inválida</div>';
                 html += '            </div>';
@@ -313,11 +317,11 @@
                 html += '        <div class="col-sm-5 field-form">Sexo:</div>';
                 html += '        <div class="col-sm-7">';
                 html += '            <div class="custom-control custom-radio custom-control-inline">';
-                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente'+ i +'" id="' + idSexoFem + '" value="0" required>';
+                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente' + i + '" id="' + idSexoFem + '" value="0" required>';
                 html += '                <label class="custom-control-label" for="' + idSexoFem + '" style="color: black">Feminino</label>';
                 html += '            </div>';
                 html += '            <div class="custom-control custom-radio custom-control-inline">';
-                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente'+ i +'" id="' + idSexoMasc + '" value="1" required>';
+                html += '                <input class="custom-control-input" type="radio" name="sexo_dependente' + i + '" id="' + idSexoMasc + '" value="1" required>';
                 html += '                <label class="custom-control-label" for="' + idSexoMasc + '" style="color: black">Masculino</label>';
                 html += '            </div>';
                 html += '        </div>'
@@ -369,14 +373,14 @@
             if (selectNumDependentes) {
                 selectNumDependentes.addEventListener('change', function (e) {
                     e.preventDefault();
-    
+
                     let formDependentes = document.getElementById('form-dependentes-pacientes');
-    
+
                     // Removendo todo o conteúdo dentro do formDependentes
                     while (formDependentes.firstChild) {
                         formDependentes.removeChild(formDependentes.firstChild);
                     }
-    
+
                     // Adicionando o conteúdo novamente de acordo com a troca
                     let numDependentes = selectNumDependentes.value
                     if (numDependentes > 0) {
@@ -400,41 +404,40 @@
                     document.getElementById("btn-submit-form").click();
                 });
 
-                window.addEventListener('load', function () {
-                    var forms = document.getElementsByClassName('needs-validation');
+                var forms = document.getElementsByClassName('needs-validation');
 
-                    // Loop no formulário para previnir a submissão do formulário
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        form.addEventListener('submit', function (event) {
-                            event.preventDefault();
+                // Loop no formulário para previnir a submissão do formulário
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
 
-                            if (form.checkValidity() === false) {
-                                event.stopPropagation();
-                                
-                                // Classe que valida os campos do formulário mostrando mensagens
-                                form.classList.add('was-validated');
+                        if (form.checkValidity() === false) {
+                            event.stopPropagation();
+
+                            // Classe que valida os campos do formulário mostrando mensagens
+                            form.classList.add('was-validated');
+                        }
+                        // Quando o formulário é válido é feito create/update
+                        else {
+                            if (operationType === "create") {
+                                handlerCreate(form);
                             }
-                            // Quando o formulário é válido é feito create/update
-                            else {
-                                if (operationType === "create") {
-                                    handlerCreate(form);
-                                }
-                                else if (operationType === "update") {
+                            else if (operationType === "update") {
 
-                                }
-                                // Fecha o formulário
-                                document.getElementsByClassName('close-modal')[0].click();
-
-                                // Retira as informações do formulário
-                                form.reset();
-
-                                // Tira as marcações dos campo após mandar o formulário para o backend
-                                form.classList.remove('was-validated');
                             }
+                            // Fecha o formulário
+                            document.getElementsByClassName('close-modal')[0].click();
 
-                        }, false);
-                    });
-                }, false);
+                            // Retira as informações do formulário
+                            form.reset();
+
+                            // Tira as marcações dos campo após mandar o formulário para o backend
+                            form.classList.remove('was-validated');
+                        }
+
+                    }, false);
+                });
+
             })();
         }
 
@@ -448,7 +451,8 @@
             }
 
             showToast("create-success");
-            
+            console.log(crudDataTable);
+
             // Enviando ao servidor via AJAX
             // $.post(settings.configs.url_create, dataJSON, function (data, status) {
             //     if (status === "success") {
@@ -460,14 +464,34 @@
             // .fail(function () {
             //     showToast("create-error");
             // });
+
+            // $.ajax ({
+            //     processData: false,
+            //     dataType: "json",
+            //     url: settings.configs.url_create,
+            //     type: "POST",
+            //     success: function(data, status) {
+            //         if (status === "success") {
+            //             showToast("create-success");
+            //         }
+            //     },
+            //     error: function(jqXHR, status) {
+            //             if (status === "error") {
+            //                 showToast("create-error");
+            //             }
+            //     },
+            //     complete: function(jqXHR) {
+
+            //     }
+            // });
         }
-        
+
         /* Converte o formulário para um simples JSON obj sem estruturas complexas */
         function formToSimpleJSONObj(form) {
             let formData = new FormData(form);
             let convertedJSON = {};
 
-            formData.forEach(function(value, key) { 
+            formData.forEach(function (value, key) {
                 convertedJSON[key] = value;
             });
 
@@ -496,13 +520,13 @@
                     sexo: dataJson["sexo_dependente" + i]
                 });
             }
-            
+
             return objPessoa;
         }
 
         /* Modificando o nome da variável global mostra o toast correto */
         function showToast(toastType) {
-            
+
             // Definição das opções
             toastr.options = {
                 "closeButton": true,
@@ -521,14 +545,14 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-            
+
             // Mostra o toast na tela
             switch (toastType) {
                 case "create-success":
                     toastr["success"]("Cadastrado com sucesso!");
                     break;
                 case "create-error":
-                    toastr["error"]("Houve problema no cadastro");
+                    toastr["error"]("Houve problema no cadastro...");
                     break;
                 default:
             }
@@ -547,7 +571,7 @@
 
         /* Renderizando a datatable no seu estado inicial */
         function renderInitDataTable(infoTable) {
-            
+
             // Setando configurações
             let configs = {
                 data: infoTable.dataSet,
@@ -574,12 +598,17 @@
                         "sPrevious": "Anterior",
                         "sFirst": "Primeiro",
                         "sLast": "Último"
-                    },
+                    }
                 }
             }
 
             // Redenrizando a dataTable
             let dataTable = $('#crud-dataTable').DataTable(configs);
+
+            // Ajustando a dataTable devido os problemas do scrollX
+            setTimeout(function () {
+                dataTable.columns.adjust();
+            }, 20);
 
             return dataTable;
         }

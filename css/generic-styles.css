@@ -25,6 +25,26 @@ input[type=date]:focus::-webkit-datetime-edit {
     color: black !important;
 }
 
+.fa-operacoes {
+    display: block;
+    text-align: center;
+}
+    .fa-operacoes i {
+        padding: 0 10px 0 10px;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+
+        .fa-operacoes i:hover {
+            opacity: 0.9;
+            transform: scale(1.15, 1.15);
+            color: #073763;
+        }
+
+.no-scroll {
+    overflow: hidden !important;
+}
+
 /* Modificações da classe do bootstrap */
 .border-danger {
     border: 2px solid red;
@@ -42,11 +62,6 @@ input[type=date]:focus::-webkit-datetime-edit {
         color: black !important;
     }
 
-.fa-operacoes {
-    display: block;
-    text-align: center;
+.modal-open {
+    overflow: hidden !important;
 }
-    .fa-operacoes i {
-        padding: 0 10px 0 10px;
-        font-size: 1.5em;
-    }

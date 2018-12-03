@@ -112,3 +112,59 @@ body {
         .dt-bootstrap input:focus, textarea:focus, option:focus {
             color: black !important;
         }
+
+.overlay-loading {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;    
+    background-color: rgba(3, 22, 39, 0.9);
+    overflow: hidden;
+    transition: 1s;
+    display: block;
+
+    animation-name: loading-screen;
+    animation-duration: 0.8s;
+}
+    .overlay-loading .overlay-centered {
+        position: fixed;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .overlay-loading .overlay-centered img {
+        height: 18%;
+        width: 18%;
+    }
+    .overlay-loading .overlay-centered p {
+        font-size: 0.9em;
+        font-weight: bold;
+        padding-top: 5px;
+        color: white;
+    }
+
+.loading-screen-dataTable {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+    .loading-screen-dataTable img {
+        height: 4%;
+        width: 4%;
+    }
+    .loading-screen-dataTable p {
+        font-size: 0.8em;
+        font-weight: bold;
+        padding-top: 5px;
+        color: white;
+    }
+
+@keyframes loading-screen {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+

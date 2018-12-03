@@ -13,24 +13,25 @@ function validarCamposLoginAtendente(formLoginAtendente) {
 }
 
 function sendAjaxLoginAtendente(dataJSON, urlAction) {
-
+    showLoadingScreen("Entrando");
+    
     $.post(urlAction, dataJSON, function (data, status) {
         if (status === "success") {
-            // Tanto número de registro quanto o rg são válidos checados no backend
             if ((data.numeroregistro === true) && (data.rg === true)) {
                 window.location.href = "../controleEstoque/cadastro-medicamentos.html";
             }
-
+    
             let rgValid = data.rg;
             let numeroregistroValid = data.numeroregistro;
-            definirCamposLoginAtendente(rgValid, numeroregistroValid);
+            definirCamposLoginAtendente(rgValid, numeroregistroValid);    
         }
     })
-        .done(function () {
-        })
-        .fail(function () {
-            alert("error in backend request. Please check your code");
-        });
+    .fail(function () {
+        alert("error in backend request. Please check your code");
+    })
+    .done(function (data) {
+        hideLoadingScreen();
+    });
 }
 
 function definirCamposLoginAtendente(isRgValid, isNumRegistroValid) {
@@ -217,11 +218,15 @@ function structureDataTableMedicamento(data) {
     let deletee = '<i class="fa fa-trash" title="Deletar Medicamento" aria-hidden="true"></i>';
 
     for (indiceObj in data) {
+        // Tratando o laboratório
+        let laboratorio = (data[indiceObj].medicamento.laboratorio[0]);
+        let laboratorio_nome = laboratorio ? laboratorio.nome : "Labs";
+
         dataSet.push([
             data[indiceObj].medicamento.nome,
-            data[indiceObj].datavencimento,
+            formatJSONToBrDate(data[indiceObj].datavencimento),
             data[indiceObj].quantidade,
-            "Consertar...",
+            laboratorio_nome,
             '<div class="fa-operacoes">' + read + update + deletee + '</div>'
         ]);
     }
@@ -232,3 +237,40 @@ function structureDataTableMedicamento(data) {
     return dataStructured;    
 }
 
+/* Formatar data para o padrão brasileiro */
+function formatJSONToBrDate(dbJsonDateTime) {
+    let dateTime = new Date(dbJsonDateTime);
+    let localDateString = dateTime.toLocaleDateString();
+    
+    return localDateString;
+}
+
+/* Mostra o loading na tela */
+function showLoadingScreen(msgLoading) {
+    let html = '';
+
+    html += '<div class="overlay-loading" id="overlay-loading-screen">';
+    html += '    <div class="overlay-centered">';
+    html += '        <img src="./../../img/loading-2.gif" alt="Loading login">';
+    html += '        <p>' + msgLoading + '</p>';
+    html += '    </div>';
+    html += '</div>';
+
+    document.body.insertAdjacentHTML('afterbegin', html);
+
+    // Tira o scroll da tela
+    document.body.style.overflow = "hidden";
+}
+
+/* Esconde o loading na tela */
+function hideLoadingScreen() {
+    let loadingScreen = document.getElementById('overlay-loading-screen');
+
+    // Caso exista o overlay-loading o remove da tela
+    if (loadingScreen) {
+        loadingScreen.remove();
+    }
+
+    // Coloca o scroll da tela
+    document.body.style.overflow = "auto";
+}
