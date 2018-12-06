@@ -2,25 +2,41 @@
 <html>
 
 <head>
+    <!-- Informações da geral da página -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Controle de Estoque - Gerar Relatórios</title>
+    
+    <!-- Ícone da página -->
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+
+    <!-- Jquery 3 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <!-- Interno do sistema -->
     <link rel="stylesheet" type="text/css" href="../../css/generic-styles.css">
     <link rel="stylesheet" type="text/css" href="../../css/controle-estoque.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/scripts-controleEstoque.js"></script>
     <script type="text/javascript" src="../../js/scripts-generic.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../../js/components/crud-datatable-controleEstoque.js"></script>
-    <title>Controle de Estoque - Gerar Relatórios</title>
+    <script type="text/javascript" src="../../js/components/relatorios-controleEstoque.js"></script>
 </head>
 
 <body>
@@ -30,7 +46,6 @@
     <article>
         <div class="container-fluid mt-5 fill-height">
             <div class="box-content" id="gerar-relatorios">
-
             </div>
         </div>
     </article>
@@ -38,6 +53,8 @@
     <footer class="footer" id="footer"></footer>
 
     <script type="text/javascript">
+        showLoadingScreen("Carregando Informações");
+
         renderHtmlHeaderShared();
         renderHtmlNavShared();
         renderHtmlFooterShared();
@@ -45,21 +62,43 @@
         groupNavButtonsResponsive(document.getElementsByClassName('btn-navigation'));
         changeColorButtonNav(document.querySelectorAll('.btn-navigation .btn-default')[5]);
         
-        // Chama o data aqui com o get aqui
-        var data = "";
-        var configs = { 
-            "url_create": "", 
-            "url_update": "",
-            "url_delete": "", 
-            "read": true,
-            "title_btnCreate": ""
-        };
+        let titles = [
+            "Medicamentos mais retirados",
+            "Medicamentos mais retirados",
+            "Medicamentos mais solicitados",
+            "Medicamentos mais solicitados"
+        ];
 
-        $('#gerar-relatorios').crudDataTable({
+        let subtitles = [
+            "Em relação a quantidade de retiradas no estoque",
+            "Em relação ao número de retiradas",
+            "Em relação a quantidade de retiradas no estoque",
+            "Em relação ao número de solicitações"
+        ];
+        
+        let urlGeralRelatorios = "http://poo2.herokuapp.com/relatorio/";
+        let numRelatorios = 4;
+
+        // Para filtrar os dados do gráfico referentes ao relatórios e mandá-los para o componente
+        var dataGraphs = structureDataGraphRelatorios(numRelatorios, titles, subtitles, urlGeralRelatorios);
+        
+        var configs = { 
+            "options_titles": [
+                "Medicamentos mais retirados por quantidade em estoque",
+                "Medicamentos mais retirados por número de retiradas",
+                "Medicamentos mais solicitados por quantidade em estoque",
+                "Medicamentos mais solicitados por número de solicitações"
+            ]
+        };
+        
+        // Chama o componente que redenriza os relatórios para o usuário
+        $('#gerar-relatorios').gerarRelatorios({
             title: "Gerar relatórios importantes do sistema",
-            data: data,
+            graficos: dataGraphs,
             configs: configs,
         });
+        
+        hideLoadingScreen();
     </script>
 
 </body>

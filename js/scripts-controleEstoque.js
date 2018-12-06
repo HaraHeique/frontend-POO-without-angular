@@ -219,11 +219,18 @@ function structureDataTableMedicamento(data) {
 
     for (indiceObj in data) {
         // Tratando o laboratório
-        let laboratorio = (data[indiceObj].medicamento.laboratorio[0]);
-        let laboratorio_nome = laboratorio ? laboratorio.nome : "Labs";
+        let medicamento_nome = "Azurpril";
+        let laboratorio_nome = "Labs";
+
+        if (data[indiceObj].medicamento !== null) {
+            medicamento_nome = data[indiceObj].medicamento.nome;
+
+            let laboratorio = data[indiceObj].medicamento.laboratorio[0];
+            laboratorio_nome = laboratorio ? laboratorio.nome : laboratorio_nome;
+        }
 
         dataSet.push([
-            data[indiceObj].medicamento.nome,
+            medicamento_nome,
             formatJSONToBrDate(data[indiceObj].datavencimento),
             data[indiceObj].quantidade,
             laboratorio_nome,
@@ -231,10 +238,79 @@ function structureDataTableMedicamento(data) {
         ]);
     }
 
+    // Inserindo as informações dos títulos e informações da dataTable
     dataStructured.headers = headers;
     dataStructured.dataSet = dataSet;
     
     return dataStructured;    
+}
+
+/* Cria a estrutura dos dados a serem plotados no gráfico esperado pelo componente de relatórios */
+function structureDataGraphRelatorios(numRelatorios, titulos, subtitulos, urlRelatorios) {
+
+    // Onde será armazenada as informações dos relatórios
+    let dataGraphs = [];
+
+    // Pega as informações para estruturar os relatórios de acordo com a quantidade de relatórios
+    for (let i = 1; i <= numRelatorios; i++) {
+
+        /* Seta a requisição como síncrona, pois deve pegar os relatórios de forma ordenada 
+        e também por não precisar de callbacks */
+        $.ajaxSetup({async: false});
+
+        // Faz as requisições para pegar as informações do relatório
+        $.get(urlRelatorios + i, function (data, status) {
+            if (status === "success") {
+                // Primeiro ordena os medicamentos pela quantidade
+                let propertyName = "quantidade";
+
+                // Muda o nome da propriedade de acordo com seus dados
+                if (data.length > 0) {
+                    if (data[0].hasOwnProperty('numero_de_retiradas')) {
+                        propertyName = "numero_de_retiradas";
+                    }
+                    else if (data[0].hasOwnProperty('numero_de_solicitacoes')) {
+                        propertyName = "numero_de_solicitacoes";
+                    }
+                }
+
+                // Muda todos as string values para valores number... né LUKAS
+                data.forEach(objGraph => { 
+                    objGraph[propertyName] = Number(objGraph[propertyName]) 
+                });
+
+                // Ordena as informações dos dados de forma descrecente
+                data.sort((a,b) => (a[propertyName] > b[propertyName]) ? -1 : ((b[propertyName] > a[propertyName]) ? 1 : 0)); 
+
+                // Depois de ordenado pega as informações do array data
+                let categories = data.map(objGraph => objGraph.medicamento_nome);
+                let dataSeries = data.map(objGraph => objGraph[propertyName]);
+
+                // Coloca dentro do array de dados dos gráficos
+                dataGraphs.push({
+                    title: titulos[i-1],
+                    subtitle: subtitulos[i-1],
+                    categories: categories,
+                    data_series: dataSeries
+                });
+            }
+        })
+        .fail(function (jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+            alert("Request Failed: " + err);
+        });
+    }
+
+    /* Seta novamente a requisição do jquery da aplicação como assíncrona após pegar 
+    as informações dos relatórios de forma ordenada */
+    $.ajaxSetup({async: false});
+
+    // Insere as informações gerais no objeto de dado estruturado do gráfico
+    let dataStructured = {
+        data: dataGraphs
+    };
+    
+    return dataStructured;
 }
 
 /* Formatar data para o padrão brasileiro */
@@ -274,3 +350,4 @@ function hideLoadingScreen() {
     // Coloca o scroll da tela
     document.body.style.overflow = "auto";
 }
+

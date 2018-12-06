@@ -163,6 +163,14 @@ body {
         color: white;
     }
 
+#selecionar-relatorio {
+    font-weight: bold;
+    font-size: 0.9em;
+    width: auto;
+    float: right;
+}
+
+/* Animações e efeitos nos elementos HTML */
 @keyframes loading-screen {
     0% {opacity: 0;}
     100% {opacity: 1;}
