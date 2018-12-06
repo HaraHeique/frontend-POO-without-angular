@@ -190,37 +190,7 @@
                 },
                 series: [{
                     name: 'Quantidade',
-                    data: [{
-                        name: infoGraph.categories[0],
-                        y: infoGraph.data_series[0]
-                    }, {
-                        name: infoGraph.categories[1],
-                        y: infoGraph.data_series[1]
-                    }, {
-                        name: infoGraph.categories[2],
-                        y: infoGraph.data_series[2]
-                    }, {
-                        name: infoGraph.categories[3],
-                        y: infoGraph.data_series[3]
-                    }, {
-                        name: infoGraph.categories[4],
-                        y: infoGraph.data_series[4]
-                    }, {
-                        name: infoGraph.categories[5],
-                        y: infoGraph.data_series[5]
-                    }, {
-                        name: infoGraph.categories[6],
-                        y: infoGraph.data_series[6]
-                    }, {
-                        name: infoGraph.categories[7],
-                        y: infoGraph.data_series[7]
-                    }, {
-                        name: infoGraph.categories[8],
-                        y: infoGraph.data_series[8]
-                    }, {
-                        name: infoGraph.categories[9],
-                        y: infoGraph.data_series[9]
-                    }]
+                    data: structureDataPizzaChart(infoGraph)
                 }],
                 tooltip: {
                 },
@@ -241,5 +211,22 @@
                 }
             });
         }
+
+        /* Estruturar a informação do campo data corretamente para gerar o gráfico do tipo pizza */
+        function structureDataPizzaChart(dataChart) {
+            let dataStructered = [];
+
+            if (dataChart) {
+                for (indice in dataChart.categories) {
+                    dataStructered.push({
+                        name: dataChart.categories[indice],
+                        y: dataChart.data_series[indice]
+                    });
+                }
+            }
+
+            return dataStructered;
+        }
+
     };
 })(jQuery);
