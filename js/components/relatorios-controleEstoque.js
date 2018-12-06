@@ -113,7 +113,7 @@
             var graficoRelatorio = Highcharts.chart('grafico-relatorios', {
                 chart: {
                     type: 'column',
-                    width: widthContainerGraph
+                    //width: widthContainerGraph
                 },
                 title: {
                     text: infoGraph.title
@@ -171,7 +171,7 @@
             var graficoRelatorio = Highcharts.chart('grafico-relatorios', {
                 chart: {
                     type: 'pie',
-                    width: widthContainerGraph
+                    //width: widthContainerGraph
                 },
                 title: {
                     text: infoGraph.title
