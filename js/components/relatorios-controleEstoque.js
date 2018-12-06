@@ -81,6 +81,9 @@
             selectRelatorios.addEventListener('change', function(e) {
                 e.preventDefault();
 
+                // Pega o atual scroll vertical da página
+                let actualScroll = window.scrollY;
+
                 // Gera o gráfico novamente de acordo com a mudança do select
                 // Par ele gera coluna e ímpar gera em pizza
                 if (Number(selectRelatorios.value)%2 === 0) {
@@ -88,6 +91,9 @@
                 } else {
                     gerarGraficoPizza(infoGraficos);
                 }
+
+                // Rola a página sem efeitos para o estado que estava anteriormente evitando que vá para início da página
+                window.scrollTo(0, actualScroll);
             });
         }
 
